@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Clancy case fact-check</title>
-<meta name="description" content="Every claim about the Lindsay Clancy case checked against the trial record, with a link to the source for each fact.">
+<meta name="description" content="Every claim about the Lindsay Clancy case checked against the trial record: the theories about Patrick, the proof she did it, why she did it, and the court files and trial video, with a link on every fact.">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -13,9 +13,9 @@
 <meta name="theme-color" content="#171C22" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
 <link rel="manifest" href="./manifest.webmanifest">
-<link rel="icon" href="./icons/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
-<link rel="stylesheet" href="./css/app.css">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+<link rel="stylesheet" href="./app.css">
 </head>
 <body>
 <a class="skip" href="#view">Skip to content</a>
@@ -56,17 +56,17 @@
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-7 8 7v9a1 1 0 0 1-1 1h-5v-6h-4v6H5a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
     <span>Home</span>
   </button>
-  <button data-tab="timeline" aria-label="Timeline">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-    <span>Timeline</span>
-  </button>
-  <button data-tab="myths" aria-label="Misinformation">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 16H3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 10v4M12 16.5v.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-    <span>Myths</span>
-  </button>
   <button data-tab="claims" aria-label="Claims about Patrick">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h9l4 4v12H6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12h7M9 15.5h7M9 8.5h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 16H3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 10v4M12 16.5v.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
     <span>Claims</span>
+  </button>
+  <button data-tab="proof" aria-label="Proof she did it">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span>Proof</span>
+  </button>
+  <button data-tab="files" aria-label="Court files and video">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h9l4 4v12H6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12h7M9 15.5h7M9 8.5h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    <span>Files</span>
   </button>
   <button data-more aria-label="More sections and settings" aria-haspopup="dialog">
     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="12" r="1.7" fill="currentColor"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/><circle cx="18" cy="12" r="1.7" fill="currentColor"/></svg>
@@ -81,6 +81,9 @@
   <div class="sheet-body">
     <h3>Sections</h3>
     <div class="list">
+      <button class="row" data-tab="timeline">Timelines<span class="sub">Jan. 24 minute by minute, and 2022 to 2026</span></button>
+      <button class="row" data-tab="myths">Misinformation<span class="sub">Claims about the case, checked</span></button>
+      <button class="row" data-tab="why">Why she did it<span class="sub">Both sides' explanations, with the testimony</span></button>
       <button class="row" data-tab="evidence">Why Patrick is ruled out<span class="sub">The evidence, in one ledger</span></button>
       <button class="row" data-tab="criticism">Fair criticism<span class="sub">What is debatable, and why it is a different question</span></button>
       <button class="row" data-tab="sources">Sources<span class="sub" id="srccount"></span></button>
@@ -97,7 +100,7 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="./js/data.js"></script>
-<script src="./js/app.js"></script>
+<script src="./data.js"></script>
+<script src="./app.js"></script>
 </body>
 </html>

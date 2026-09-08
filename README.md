@@ -4,17 +4,29 @@ A small offline-capable web app that checks the claims circulating about the Lin
 
 No build step, no framework, no dependencies. Plain HTML, CSS and JavaScript, so it runs on GitHub Pages as-is.
 
+This is the flat layout: every file sits at the top level so it can be uploaded from a phone (the GitHub upload page on iOS cannot upload folders).
+
 ```
-clancy-factcheck/
-  index.html            app shell (relative paths, so it works in any subfolder)
-  css/app.css           styles: light/dark, text size, dock, settings sheet
-  js/app.js             rendering, search, routing, share links, settings
-  js/data.js            ALL THE CONTENT: sources, timeline, claims, evidence
-  sw.js                 service worker (offline + instant load)
-  manifest.webmanifest  Add to Home Screen metadata
-  icons/                favicon.svg, icon-192.png, icon-512.png, maskable-512.png, apple-touch-icon.png
-  .nojekyll             tells GitHub Pages to publish files exactly as they are
+index.html            app shell
+app.css               styles: light/dark, text size, dock, settings sheet
+app.js                rendering, search, routing, share links, settings
+data.js               ALL THE CONTENT: sources, timelines, claims, proof, why, files
+sw.js                 service worker (offline + instant load)
+manifest.webmanifest  Add to Home Screen metadata
+favicon.svg, icon-192.png, icon-512.png, maskable-512.png, apple-touch-icon.png
+export_data.js        dumps data.js as JSON
+build_pdf.py          builds the PDF edition from that JSON (every fact stays a link)
+.nojekyll             tells GitHub Pages to publish files exactly as they are
+.github/workflows/pdf.yml   optional: rebuilds the PDF when data.js changes
 ```
+
+## Sections
+
+- **Claims about Patrick** (30): timeline and alibi, scene and forensics, digital evidence, behavior, and the house / move / money theories (the off-market sale to a former ADA, "he rented the NYC apartment two days before"). Each against the record.
+- **Proof she did it** (14 categories): admissions, statements at the scene and in the hospital, details only she could know, device data before and after he left, Patrick's whereabouts, the medical clock (Callan's pulse), autopsies, physical evidence, her writing and searches, prior disclosures, the 911 call, and what the courtroom accepted.
+- **Why she did it**: what both sides agree on, the prosecution's answer ("it was a choice"), the defense's answer ("her mind was gone"), and what the jury did with it.
+- **Timelines**: Jan. 24 minute by minute, and the case from 2022 to the Sept. 29 hearing.
+- **Misinformation** (16), **Why Patrick is ruled out** (12), **Fair criticism**, **Court files and video** (44: warrant filings, the stipulation motion, the civil complaint, DA releases, docket portals, full testimony and closings on video, live blogs), **Sources** (189).
 
 ## Put it on GitHub Pages
 
@@ -37,7 +49,7 @@ Tip: uploading a folder needs a desktop browser or GitHub Desktop. From the phon
 
 ## Update the facts
 
-Everything readers see comes from `js/data.js`. To add or fix something:
+Everything readers see comes from `data.js`. To add or fix something:
 
 1. Add the source to `S` (one line per report):
    ```js
@@ -46,7 +58,9 @@ Everything readers see comes from `js/data.js`. To add or fix something:
 2. Link a fact anywhere in the text with double brackets: `[[ap_retrial|the DA announced a retrial]]`.
    Whatever is between `|` and `]]` becomes the underlined, clickable text. Use as many links per sentence as you want.
 3. Update `UPDATED` at the bottom of `data.js`.
-4. Bump `CACHE_VERSION` in `sw.js` (for example `v1.0.0` to `v1.0.1`). Phones that already installed the app pick up the change on the next open.
+4. Bump `CACHE_VERSION` in `sw.js` (for example `v2.0.0` to `v2.0.1`). Phones that already installed the app pick up the change on the next open.
+
+Other lists you can extend the same way: `MYTHS`, `PROOF` (each item has a `tag` shown as a chip), `WHY.agreed / prosecution / defense / jury`, `EVIDENCE`, `CASE_TIMELINE`, and `RESOURCES` (each item points at a key in `S` plus a `type` of Document, Docket, Video or Live blog and a short `note`).
 
 Text fields use backticks (`...`) so quotes and apostrophes inside them are fine. Do not type curly "smart" quotes inside the `S` entries or the app will not load: iOS autocorrect inserts them. Safer to edit in a code editor and upload the file than to type in the GitHub mobile editor.
 
@@ -56,7 +70,19 @@ To add a new theory about Patrick, copy one block in `CLAIMS`:
  claim:`"The claim, in the words people use."`,
  rec:`What the record shows, with [[key|links]] on every fact.`},
 ```
-Categories: A timeline and alibi, B scene and forensics, C digital evidence, D behavior and demeanor. Verdict color classes: `v-false`/`v-contra` (red), `v-warn` (amber), `v-ok` (green), `v-neutral` (blue).
+Categories: A timeline and alibi, B scene and forensics, C digital evidence, D behavior and demeanor, E house, move and money. Verdict color classes: `v-false`/`v-contra` (red), `v-warn` (amber), `v-ok` (green), `v-neutral` (blue).
+
+## Build the PDF edition
+
+The PDF is generated from `data.js`, so it can never drift from the app.
+
+```
+node export_data.js > /tmp/clancy.json
+pip install reportlab
+python3 build_pdf.py /tmp/clancy.json Clancy_FactCheck.pdf
+```
+
+An optional GitHub Action (`.github/workflows/pdf.yml`) does the same thing automatically whenever `data.js` changes and commits `Clancy_FactCheck.pdf` to the repo. Delete the file if you don't want it.
 
 ## How it behaves
 
@@ -68,4 +94,4 @@ Categories: A timeline and alibi, B scene and forensics, C digital evidence, D b
 
 ## Content
 
-Compiled Sept. 7, 2026 from trial testimony and reporting by AP, CNN, NBC, CBS Boston, The Boston Globe, Boston.com, WBUR, the Patriot Ledger, Court TV and others; the full list is in the Sources section. It is a summary of public reporting, not legal advice. The code is yours to reuse however you like.
+Compiled Sept. 8, 2026 from trial testimony, court filings and reporting by AP, CNN, NBC, CBS Boston, The Boston Globe, Boston.com, WBUR, the Patriot Ledger, Court TV and others; the full list is in the Sources section. It is a summary of public reporting, not legal advice. The code is yours to reuse however you like.
